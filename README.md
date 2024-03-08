@@ -13,7 +13,7 @@ Dashboard
 
 ## Read more
 
-https://www.devproblems.com
+https://www.devproblems.com/phptypesenseadmin/
 
 ## Functionalities
 
