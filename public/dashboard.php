@@ -78,7 +78,10 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
                 $status = $typesenseAdmin->getHealth();
                 echo "<h2>Health Status</h2><p>" . ($status ? '<div class="ok">OK, connected with /health API endpoint</div>' : '<div class="error">ERROR, could not connect to /health API endpoint.</div>') . "</p><p>Output: " . $status . "</p>";
                 echo "<h2>Stats</h2>";
-                $typesenseAdmin->displayTypesenseStatsTables();
+                $typesenseAdmin->displayTypesenseTable($typesenseAdmin->fetchTypesenseStats());
+                echo "<h2>Metrics</h2>";
+                $typesenseAdmin->displayTypesenseTable($typesenseAdmin->fetchTypesenseMetrics());
+                
                 break;
             case 'list_collections':
                 $typesenseAdmin->listCollections();

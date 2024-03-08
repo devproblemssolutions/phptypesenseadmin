@@ -62,10 +62,42 @@ class TypesenseAdmin {
         return json_decode($response, true);
     }
 
-    function displayTypesenseStatsTables() {
-        $stats = $this->fetchTypesenseStats();
+    function displayTypesenseTable($data) {
 
-        print_r($stats);
+        // Start the table
+        echo '<table border="1" cellspacing="0" cellpadding="5">';
+
+        // Table header
+        echo '<tr><th>Field</th><th>Value</th></tr>';
+
+        // Iterate over the array and generate table rows
+        foreach ($data as $key => $value) {
+            echo "<tr><td>{$key}</td><td>" . (is_string($value) ? $value : json_encode($value)) ."</td></tr>";
+        }
+
+        // Close the table
+        echo '</table>';
+
+    }
+
+    function fetchTypesenseMetrics() {
+        $url = $this->getBaseUrl() . '/metrics.json';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            "X-TYPESENSE-API-KEY: " . $this->typesenseAPIKey
+        ]);
+
+        $response = curl_exec($curl);
+        if ($response === false) {
+            curl_close($curl);
+            return "Curl Error: " . curl_error($curl);
+        }
+
+        curl_close($curl);
+        return json_decode($response, true);
     }
 
     function listCollections()
