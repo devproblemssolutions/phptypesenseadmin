@@ -9,23 +9,7 @@ if (!isset($_SESSION['loggedin']) || $_SESSION['loggedin'] !== true) {
     exit;
 }
 
-use Typesense\Client;
-
-$client = new Client(
-  [
-    'api_key'         => $typesenseApiKey,
-    'nodes'           => [
-        [
-            'host'     => $typesenseHost,
-            'port'     => $typesensePort,
-            'protocol' => $typesenseProtocol,
-        ],
-    ],
-    'connection_timeout_seconds' => 2,
-  ]
-);
-
-$typesenseAdmin = new \DevProblemsSolutions\PHPTypesenseAdmin\TypesenseAdmin($client, $typesenseProtocol, $typesenseHost, $typesensePort);
+$typesenseAdmin = new \DevProblemsSolutions\PHPTypesenseAdmin\TypesenseAdmin($typesenseProtocol, $typesenseHost, $typesensePort, $typesenseApiKey);
 
 // Simulate a basic router using a 'page' GET parameter
 $page = isset($_GET['page']) ? $_GET['page'] : 'home';
@@ -93,6 +77,8 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             case 'home':
                 $status = $typesenseAdmin->getHealth();
                 echo "<h2>Health Status</h2><p>" . ($status ? '<div class="ok">OK, connected with /health API endpoint</div>' : '<div class="error">ERROR, could not connect to /health API endpoint.</div>') . "</p><p>Output: " . $status . "</p>";
+                echo "<h2>Stats</h2>";
+                $typesenseAdmin->displayTypesenseStatsTables();
                 break;
             case 'list_collections':
                 $typesenseAdmin->listCollections();

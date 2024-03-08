@@ -7,13 +7,28 @@ class TypesenseAdmin {
     private $typesenseProtocol;
     private $typesenseHost;
     private $typesensePort;
+    private $typesenseAPIKey;
 
-    function __construct($client, $typesenseProtocol, $typesenseHost, $typesensePort)
+    function __construct($typesenseProtocol, $typesenseHost, $typesensePort, $typesenseAPIKey)
     {
-        $this->client = $client;
         $this->typesenseProtocol = $typesenseProtocol;
         $this->typesenseHost = $typesenseHost;
         $this->typesensePort = $typesensePort;
+        $this->typesenseAPIKey = $typesenseAPIKey;
+
+        $this->client = new \Typesense\Client(
+          [
+            'api_key'         => $typesenseAPIKey,
+            'nodes'           => [
+                [
+                    'host'     => $typesenseHost,
+                    'port'     => $typesensePort,
+                    'protocol' => $typesenseProtocol,
+                ],
+            ],
+            'connection_timeout_seconds' => 2,
+          ]
+        );
     }
 
     function getBaseUrl()
@@ -25,6 +40,32 @@ class TypesenseAdmin {
     {
         $health = json_decode(file_get_contents($this->getBaseUrl() . '/health'));
         return $health->ok ?? $health;
+    }
+
+    function fetchTypesenseStats() {
+        $url = $this->getBaseUrl() . '/stats.json';
+
+        $curl = curl_init();
+        curl_setopt($curl, CURLOPT_URL, $url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [
+            "X-TYPESENSE-API-KEY: " . $this->typesenseAPIKey
+        ]);
+
+        $response = curl_exec($curl);
+        if ($response === false) {
+            curl_close($curl);
+            return "Curl Error: " . curl_error($curl);
+        }
+
+        curl_close($curl);
+        return json_decode($response, true);
+    }
+
+    function displayTypesenseStatsTables() {
+        $stats = $this->fetchTypesenseStats();
+
+        print_r($stats);
     }
 
     function listCollections()

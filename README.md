@@ -1,34 +1,47 @@
 # PHPTypesenseAdmin
 
-PHPTypesenseAdmin is a simple administration panel designed to interact with [Typesense](https://typesense.org/), an open-source, typo-tolerant search engine that provides instant search experiences for your applications. This project aims to provide an easy-to-use interface for managing your Typesense instance, including functionalities such as viewing collections, documents, and managing API keys.
+PHPTypesenseAdmin is a simple administration panel designed to interact with [Typesense](https://typesense.org/), an open-source, typo-tolerant search engine that provides instant search experiences for your applications. This project aims to provide an easy-to-use interface for managing your Typesense instance, including 
+functionalities such as viewing collections, documents, and managing API keys.
 
 ## Screenshots
 
-Login Screen:
+Login Screen
 ![Login Screen](phptypesenseadmin-login.png)
 
-Dashboard:
+Dashboard
 ![Dashboard](phptypesenseadmin-dashboard.png)
+
+## Read more
+
+https://www.devproblems.com
 
 ## Functionalities
 
 - Health Status
 - Collections
--- List Collections
--- Create Collection
--- Update Collection
--- Delete Collection
--- Creation of Export / Import Collection curl prompts
+- - List Collections
+- - Create Collection
+- - Update Collection
+- - Delete Collection
+- - Creation of Export / Import Collection curl prompts
 - API Keys
--- List Keys
--- Delete Key
--- Create Key
+- - List Keys
+- - Delete Key
+- - Create Key
 
 ## Installation
 
 To get started with PHPTypesenseAdmin, follow the steps below:
 
-### 1. Clone the Repository
+### Step 1. Option A: Composer create-project
+
+The easiest way is to run composer create-project
+
+``` sh
+composer create-project devproblemssolutions/phptypesenseadmin example-app
+```
+
+### Step 1. Option B: Clone the Repository
 
 First, clone this repository to your local machine or server. You can do this by running:
 
@@ -37,7 +50,11 @@ git clone https://github.com/devproblemssolutions/PHPTypesenseAdmin.git
 cd PHPTypesenseAdmin
 ```
 
-Replace `https://github.com/devproblemssolutions/PHPTypesenseAdmin.git` with the actual URL of your repository.
+Run from the newly created directory:
+
+```sh
+composer install
+```
 
 ### 2. Configuration
 
@@ -93,7 +110,3 @@ Contributions, issues, and feature requests are welcome. Feel free to check [iss
 ## Disclaimer
 
 All use of this software is at your own risk. While effort has been made to ensure security and stability, there may still be undetected bugs or vulnerabilities. The author(s) or contributors bear no responsibility for any damage or data loss incurred.
-
----
-
-Remember to replace placeholders like `https://github.com/devproblemssolutions/PHPTypesenseAdmin.git` and links to the issues page with actual links relevant to your GitHub repository. Expand this README as needed to include more detailed information about your project, how to use it, and how others can contribute.
