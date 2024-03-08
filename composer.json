@@ -1,0 +1,30 @@
+{
+    "name": "devproblemssolutions/phptypesenseadmin",
+    "description": "A simple administration panel for Typesense.",
+    "type": "library",
+    "license": "MIT",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "DevProblemsSolutions\\PHPTypesenseAdmin\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Dev Problems",
+            "email": "mail@devproblems.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    
+    "require": {
+        "php-http/curl-client": "^2.3",
+        "typesense/typesense-php": "^4.9",
+        "symfony/http-client": "^7.0"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
