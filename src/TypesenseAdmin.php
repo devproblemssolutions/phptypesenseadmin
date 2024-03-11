@@ -107,17 +107,21 @@ class TypesenseAdmin {
 
         <h2>Typesense Collections</h2>
 
+        <?php if (empty($collections)) { ?>
+        <p>No collections found</p>
+        <?php } ?>
+
         <?php foreach ($collections as $collection): ?>
             <h3>Collection: <?php echo htmlspecialchars($collection['name']); ?></h3>
             <p>Number of Documents: <?php echo htmlspecialchars($collection['num_documents']); ?></p>
             <p>Default Sorting Field: <?php echo htmlspecialchars($collection['default_sorting_field']); ?></p>
 
             <p>
-                <a class="btn" href="dashboard.php?page=search_collection&collection=<?= urlencode($collection['name']) ?>">Search through</a> /
-                <a class="btn" href="dashboard.php?page=edit_collection&collection=<?= urlencode($collection['name']) ?>">Update collection</a> /
-                <a class="btn" href="dashboard.php?page=delete_collection&collection=<?= urlencode($collection['name']) ?>">Delete this collection</a> /
-                <a class="btn" href="dashboard.php?page=import_collection&collection=<?= urlencode($collection['name']) ?>">Import collection</a> /
-                <a class="btn" href="dashboard.php?page=export_collection&collection=<?= urlencode($collection['name']) ?>">Export collection</a>
+                <a class="btn" href="dashboard.php?page=search_collection&collection=<?= urlencode($collection['name']) ?>">🔎 Search through</a> /
+                <a class="btn" href="dashboard.php?page=edit_collection&collection=<?= urlencode($collection['name']) ?>">⚙️ Update collection</a> /
+                <a class="btn" href="dashboard.php?page=delete_collection&collection=<?= urlencode($collection['name']) ?>" onclick="return confirmLink()">🗑️ Delete this collection</a> /
+                <a class="btn" href="dashboard.php?page=import_collection&collection=<?= urlencode($collection['name']) ?>">⬇️ Import collection</a> /
+                <a class="btn" href="dashboard.php?page=export_collection&collection=<?= urlencode($collection['name']) ?>">⬆️ Export collection</a>
             </p>
 
             <table>
@@ -140,7 +144,15 @@ class TypesenseAdmin {
 
         <br>
 
-        <p><a href="dashboard.php?page=create_collection" class="btn">Create Collections</a></p>
+        <p><a href="dashboard.php?page=create_collection" class="btn">+ Create Collections</a></p>
+
+        <script type="text/javascript">
+            function confirmLink() {
+                const userResponse = confirm("Are you sure you want to delete this collection?");
+
+                return userResponse;
+            }
+        </script>
 
         <?php
     }
@@ -229,7 +241,7 @@ class TypesenseAdmin {
 
     function deleteCollection()
     {
-        if (empty($_GET['collection']) || empty($_POST))
+        if (empty($_GET['collection']))
         {
             echo "no collection set";
             return false;
@@ -239,8 +251,10 @@ class TypesenseAdmin {
 
         try {
             $result = $this->client->collections[$collection]->delete();
-            echo "<p>Delete collection!</p><p>" . json_encode($result) . "</p>";
+            echo "<p>Deleted collection!</p><p>" . json_encode($result) . "</p>";
         } catch (Exception $e) {
+            echo "Error: ",  $e->getMessage(), "\n";
+        } catch (\Typesense\Exceptions\ObjectNotFound $e) {
             echo "Error: ",  $e->getMessage(), "\n";
         }
 
@@ -276,7 +290,7 @@ class TypesenseAdmin {
 
     function storeCollection()
     {
-        echo '<h2>Store Colllection</h2>';
+        echo '<h2>Store Collection</h2>';
         try {
             $result = $this->client->collections->create(json_decode($_POST['json'], true));
             http_response_code(201); // Created
@@ -285,9 +299,12 @@ class TypesenseAdmin {
         } catch (Exception $e) {
             http_response_code(500); // Internal Server Error
             echo json_encode(['error' => $e->getMessage()]);
+        } catch (\Typesense\Exceptions\RequestMalformed $e ) {
+            http_response_code(500); // Internal Server Error
+            echo json_encode(['error' => $e->getMessage()]);
         }
 
-        echo '<a class="btn" href="?page=list_collections">Back</a>';
+        echo '<p><a class="btn" href="?page=list_collections">Back</a></p>';
 
     
     }
@@ -405,6 +422,7 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                 <tr>
                     <th>ID</th>
                     <th>Description</th>
+                    <th>Key Prefix</th>
                     <th>Collections</th>
                     <th>Actions</th>
                     <th>Expires at</th>
@@ -416,11 +434,12 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
                     <tr>
                         <td><?= htmlspecialchars($key['id']) ?></td>
                         <td><?= htmlspecialchars($key['description']) ?></td>
+                        <td><?= htmlspecialchars($key['value_prefix']) ?></td>
                         <td><?= json_encode($key['collections']) ?></td>
                         <td><?= json_encode($key['actions']) ?></td>
                         <td><?= date("Y-m-d H:i:s", htmlspecialchars($key['expires_at'])) ?></td>
                         <td>
-                            <a class="btn" href="?page=delete_key&id=<?= htmlspecialchars($key['id']) ?>">Delete</a>
+                            <a class="btn" href="?page=delete_key&id=<?= htmlspecialchars($key['id']) ?>"  onclick="return confirmLink()">🗑️ Delete</a>
                         </td>
                     </tr>
                 <?php endforeach; ?>
@@ -428,7 +447,16 @@ curl -H "X-TYPESENSE-API-KEY: ${TYPESENSE_API_KEY}" \
             </tbody>
         </table>
 
-        <a class="btn" href="?page=create_key">Create Key</a>
+        <a class="btn" href="?page=create_key">+ Create Key</a>
+
+        <script type="text/javascript">
+            function confirmLink() {
+                const userResponse = confirm("Are you sure you want to delete this key?");
+
+                return userResponse;
+            }
+        </script>
+
         <?php
         }
     }

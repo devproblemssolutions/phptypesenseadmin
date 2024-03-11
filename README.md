@@ -6,10 +6,16 @@ functionalities such as viewing collections, documents, and managing API keys.
 ## Screenshots
 
 Login Screen
+
 ![Login Screen](phptypesenseadmin-login.png)
 
 Dashboard
+
 ![Dashboard](phptypesenseadmin-dashboard.png)
+
+Collections overview
+
+![Dashboard](phptypesenseadmin-overview.png)
 
 ## Read more
 

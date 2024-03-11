@@ -1,4 +1,6 @@
 <?php
+error_reporting(0);
+ini_set('error_reporting', 0);
 session_start();
 require __DIR__.'/../vendor/autoload.php';
 require "../env.php";
@@ -33,6 +35,9 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
             float: left;
             width: 20%;
         }
+
+        #nav a { text-decoration: none; }
+
         #nav ul {
             list-style-type: none;
             padding: 0;
@@ -53,20 +58,20 @@ $page = isset($_GET['page']) ? $_GET['page'] : 'home';
     <h1>PHPTypesenseAdmin</h1>
     <div id="nav">
         <ul>
-            <li><a href="dashboard.php?page=home">Health Status</a></li>
-            <li><a href="dashboard.php?page=list_collections">Collections</a>
+            <li><a href="dashboard.php?page=home">📊 Health Status</a></li>
+            <li><a href="dashboard.php?page=list_collections">📚 Collections</a>
                 <ul>
-                    <li><a href="dashboard.php?page=list_collections">List Collections</a></li>
-                    <li><a href="dashboard.php?page=create_collection">Create Collection</a></li>
+                    <li><a href="dashboard.php?page=list_collections">📋 List Collections</a></li>
+                    <li><a href="dashboard.php?page=create_collection">➕ Create Collection</a></li>
                 </ul>
             </li>
-            <li><a href="dashboard.php?page=list_keys">API Keys</a>
+            <li><a href="dashboard.php?page=list_keys">🔑 API Keys</a>
                 <ul>
-                    <li><a href="dashboard.php?page=list_keys">List</a></li>
-                    <li><a href="dashboard.php?page=create_key">Create</a></li>
+                    <li><a href="dashboard.php?page=list_keys">📋 List</a></li>
+                    <li><a href="dashboard.php?page=create_key">➕ Create</a></li>
                 </ul>
             </li>
-            <li><a href="logout.php">Logout</a></li>
+            <li><a href="logout.php">↪ Logout</a></li>
         </ul>
     </div>
 
