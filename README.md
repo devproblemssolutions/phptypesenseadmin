@@ -15,7 +15,7 @@ Dashboard
 
 Collections overview
 
-![Dashboard](phptypesenseadmin-overview.png)
+![Dashboard](phptypesenseadmin-collections.png)
 
 ## Read more
 
