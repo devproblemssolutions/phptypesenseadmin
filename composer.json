@@ -1,6 +1,6 @@
 {
     "name": "devproblemssolutions/phptypesenseadmin",
-    "description": "A simple administration panel for Typesense.",
+    "description": "PHPTypesenseAdmin is a simple PHP administration panel for Typesense to connect to and manage your Typesense server.",
     "type": "library",
     "license": "MIT",
     "require": {},
